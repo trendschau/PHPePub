@@ -3,7 +3,7 @@
     "type": "library",
     "description": "Package to create and stream e-books in the ePub 2.0 and 3.0 formats.",
     "keywords": ["epub", "e-book"],
-    "homepage": "https://github.com/Grandt/PHPZip",
+    "homepage": "https://github.com/Grandt/PHPePub",
     "license": "LGPL-2.1",
     "minimum-stability": "stable",
     "authors": [
@@ -12,6 +12,17 @@
             "email": "php@grandt.com",
             "homepage": "http://grandt.com",
             "role": "Developer"
+        },
+        {
+            "name": "An, Hyeong-woo",
+            "email": "mail@mytory.net",
+            "homepage": "https://mytory.net",
+            "role": "Contributor"
+        },
+        {
+            "name": "Daniel Berthereau",
+            "email": "daniel.composer@berthereau.net",
+            "role": "Contributor"
         }
     ],
     "require": {
