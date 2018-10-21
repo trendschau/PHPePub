@@ -59,6 +59,9 @@ class EPub {
     const BOOK_VERSION_EPUB2 = '2.0';
     const BOOK_VERSION_EPUB3 = '3.0';
 
+    const FORMAT_XHTML = 'xhtml';
+    const FORMAT_HTML5 = 'html5';
+
     public $viewportMap = array(
         "small" => array('width' => 600, 'height' => 800),
         "medium" => array('width' => 720, 'height' => 1280),
@@ -127,6 +130,7 @@ class EPub {
     private $tocCssFileName = null;
     private $fileList = array();
     private $writingDirection = EPub::DIRECTION_LEFT_TO_RIGHT;
+    private $htmlFormat = EPub::FORMAT_XHTML;
     private $languageCode = 'en';
     private $dateformat = 'Y-m-d\TH:i:s.000000P';
     private $dateformatShort = 'Y-m-d';
@@ -150,11 +154,18 @@ class EPub {
      * @param string $bookVersion
      * @param string $languageCode
      * @param string $writingDirection
+     * @param string $htmlFormat
      */
-    function __construct($bookVersion = EPub::BOOK_VERSION_EPUB2, $languageCode = 'en', $writingDirection = EPub::DIRECTION_LEFT_TO_RIGHT) {
+    function __construct(
+        $bookVersion = EPub::BOOK_VERSION_EPUB2,
+        $languageCode = 'en',
+        $writingDirection = EPub::DIRECTION_LEFT_TO_RIGHT,
+        $htmlFormat = EPub::FORMAT_XHTML
+    ) {
         $this->bookVersion = $bookVersion;
         $this->writingDirection = $writingDirection;
         $this->languageCode = $languageCode;
+        $this->htmlFormat = $htmlFormat;
 
         $this->log = new Logger('EPub', $this->isLogging);
 
@@ -247,7 +258,7 @@ class EPub {
 
         $chapter = $chapterData;
         if ($autoSplit && is_string($chapterData) && mb_strlen($chapterData) > $this->splitDefaultSize) {
-            $splitter = new EPubChapterSplitter();
+            $splitter = new EPubChapterSplitter($this->htmlFormat);
             $splitter->setSplitSize($this->splitDefaultSize);
 
             $chapterArray = $splitter->splitChapter($chapterData);
@@ -355,8 +366,17 @@ class EPub {
      * @return array
      */
     function findIdAttributes($chapterData) {
-        $html5 = new HTML5();
-        $xmlDoc = $html5->loadHTML($chapterData);
+        switch ($this->htmlFormat) {
+            case EPub::FORMAT_HTML5;
+                $html5 = new HTML5();
+                $xmlDoc = $html5->loadHTML($chapterData);
+                break;
+            case EPub::FORMAT_XHTML:
+            default:
+                $xmlDoc = new DOMDocument();
+                @$xmlDoc->loadHTML($chapterData);
+                break;
+        }
 
         $xpath = new DomXpath($xmlDoc);
 
@@ -417,8 +437,17 @@ class EPub {
         if ($isDocAString) {
             $doc = StringHelper::removeComments($doc);
 
-            $html5 = new HTML5();
-            $xmlDoc = $html5->loadHTML($doc);
+            switch ($this->htmlFormat) {
+                case EPub::FORMAT_HTML5;
+                    $html5 = new HTML5();
+                    $xmlDoc = $html5->loadHTML($doc);
+                    break;
+                case EPub::FORMAT_XHTML:
+                default:
+                    $xmlDoc = new DOMDocument();
+                    @$xmlDoc->loadHTML($doc);
+                    break;
+            }
         } else {
             $xmlDoc = $doc;
         }

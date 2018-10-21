@@ -18,6 +18,16 @@ use DOMDocument;
 class EPubChapterSplitter {
     private $splitDefaultSize = 250000;
     private $bookVersion = EPub::BOOK_VERSION_EPUB2;
+    private $htmlFormat = EPub::FORMAT_XHTML;
+
+    /**
+     * Class constructor.
+     *
+     * @param string $htmlFormat
+     */
+    function __construct($htmlFormat = EPub::FORMAT_XHTML) {
+        $this->setHtmlFormat($htmlFormat);
+    }
 
     /**
      *
@@ -27,6 +37,17 @@ class EPubChapterSplitter {
      */
     function setVersion($bookVersion) {
         $this->bookVersion = is_string($bookVersion) ? trim($bookVersion) : EPub::BOOK_VERSION_EPUB2;
+    }
+
+    /**
+     * Set the html format of the epub.
+     *
+     * @param string $htmlFormat
+     */
+    public function setHtmlFormat($htmlFormat) {
+        $this->htmlFormat = in_array($htmlFormat, [EPub::FORMAT_XHTML, EPub::FORMAT_HTML5])
+            ? $htmlFormat
+            : EPub::FORMAT_XHTML;
     }
 
     /**
@@ -78,8 +99,17 @@ class EPubChapterSplitter {
             );
         }
 
-        $html5 = new HTML5();
-        $xmlDoc = $html5->loadHTML($chapter);
+        switch ($this->htmlFormat) {
+            case EPub::FORMAT_HTML5;
+                $html5 = new HTML5();
+                $xmlDoc = $html5->loadHTML($chapter);
+                break;
+            case EPub::FORMAT_XHTML:
+            default:
+                $xmlDoc = new DOMDocument();
+                @$xmlDoc->loadHTML($chapter);
+                break;
+        }
 
         $head = $xmlDoc->getElementsByTagName("head");
         $body = $xmlDoc->getElementsByTagName("body");
