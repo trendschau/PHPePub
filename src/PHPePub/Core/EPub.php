@@ -2,6 +2,7 @@
 namespace PHPePub\Core;
 
 use com\grandt\BinStringStatic;
+use Masterminds\HTML5;
 use DOMDocument;
 use DOMXPath;
 use PHPePub\Core\Structure\Ncx;
@@ -354,8 +355,8 @@ class EPub {
      * @return array
      */
     function findIdAttributes($chapterData) {
-        $xmlDoc = new DOMDocument();
-        @$xmlDoc->loadHTML($chapterData);
+        $html5 = new HTML5();
+        $xmlDoc = $html5->loadHTML($chapterData);
 
         $xpath = new DomXpath($xmlDoc);
 
@@ -416,8 +417,8 @@ class EPub {
         if ($isDocAString) {
             $doc = StringHelper::removeComments($doc);
 
-            $xmlDoc = new DOMDocument();
-            @$xmlDoc->loadHTML($doc);
+            $html5 = new HTML5();
+            $xmlDoc = $html5->loadHTML($doc);
         } else {
             $xmlDoc = $doc;
         }
