@@ -1,9 +1,9 @@
 {
-    "name": "grandt/phpepub",
+    "name": "wallabag/phpepub",
     "type": "library",
     "description": "Package to create and stream e-books in the ePub 2.0 and 3.0 formats.",
     "keywords": ["epub", "e-book"],
-    "homepage": "https://github.com/Grandt/PHPePub",
+    "homepage": "https://github.com/wallabag/PHPePub",
     "license": "LGPL-2.1",
     "minimum-stability": "stable",
     "authors": [
@@ -22,6 +22,11 @@
         {
             "name": "Daniel Berthereau",
             "email": "daniel.composer@berthereau.net",
+            "role": "Contributor"
+        },
+        {
+            "name": "Kevin Decherf",
+            "homepage": "https://kdecherf.com",
             "role": "Contributor"
         }
     ],
