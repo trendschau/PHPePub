@@ -297,18 +297,17 @@ class EPub {
             $this->chapterCount++;
 
             foreach ($chapter as $oneChapter) {
-                $v = reset($oneChapter);
                 if ($this->encodeHTML === true) {
-                    $v = StringHelper::encodeHtml($v);
+                    $oneChapter = StringHelper::encodeHtml($oneChapter);
                 }
 
                 if ($externalReferences !== EPub::EXTERNAL_REF_IGNORE) {
-                    $this->processChapterExternalReferences($v, $externalReferences, $baseDir);
+                    $this->processChapterExternalReferences($oneChapter, $externalReferences, $baseDir);
                 }
                 $partCount++;
                 $partName = $name . "_" . $partCount;
-                $this->addFile($partName . "." . $extension, $partName, $v, "application/xhtml+xml");
-                $this->extractIdAttributes($partName, $v);
+                $this->addFile($partName . "." . $extension, $partName, $oneChapter, "application/xhtml+xml");
+                $this->extractIdAttributes($partName, $oneChapter);
 
                 $this->opf->addItemRef($partName);
             }
