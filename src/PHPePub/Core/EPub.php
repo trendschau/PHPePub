@@ -1260,6 +1260,9 @@ class EPub {
                 }
             }
             $image = ImageHelper::getImage($this, $fileName);
+            if (false === $image) {
+                return false;
+            }
             $imageData = $image['image'];
             $mimetype = $image['mime'];
             $fileName = preg_replace('#\.[^\.]+$#', "." . $image['ext'], $fileName);
