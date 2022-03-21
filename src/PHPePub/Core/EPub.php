@@ -1457,7 +1457,7 @@ class EPub {
      * @return bool $success
      */
     function setLanguage($language) {
-        if ($this->isFinalized || mb_strlen($language) != 2) {
+        if ($this->isFinalized || 0 === preg_match('/^((?<language>([A-Za-z]{2,3}(-(?<extlang>[A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(-(?<region>[A-Za-z]{2}|[0-9]{3}))?)$/', $language)) {
             return false;
         }
         $this->language = $language;
