@@ -1,3 +1,7 @@
+Contains php-updates from wallabot and others 
+
+--------
+
 # PHP ePub generator
 
 PHPePub allows a php script to generate ePub Electronic books on the fly, and send them to the user as downloads.
