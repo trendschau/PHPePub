@@ -1,7 +1,3 @@
-Contains php-updates from wallabot and others 
-
---------
-
 # PHP ePub generator
 
 PHPePub allows a php script to generate ePub Electronic books on the fly, and send them to the user as downloads.
@@ -24,7 +20,7 @@ See the examples for example usage. The php files have "some" doumentation in th
 ### Import
 Add this requirement to your `composer.json` file:
 ```json
-    "wallabag/phpepub": "^4.0.3"
+    "trendschau/phpepub": "^4.0.3"
 ```
 
 ### Composer
@@ -46,7 +42,7 @@ Once composer is installed you can create the `composer.json` file to import thi
 ```json
 {
     "require": {
-        "wallabag/phpepub": "^4.0.3",
+        "trendschau/phpepub": "^4.0.3",
         "php": ">=5.3.0"
     }
 }
